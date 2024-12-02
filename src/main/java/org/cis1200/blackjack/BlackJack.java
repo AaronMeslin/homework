@@ -1,11 +1,9 @@
 package org.cis1200.blackjack;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -19,9 +17,9 @@ public class BlackJack {
     private JFrame frame;
     private JButton hitButton;
     private JButton standButton;
+    private JButton resetButton;
     private JButton dealButton;
     private JButton doubleButton;
-    private JButton splitButton;
     private JTextArea gameArea;
     private JTextField betField;
     private JLabel betLabel;
@@ -110,19 +108,25 @@ public class BlackJack {
         hitButton = new JButton("Hit");
         standButton = new JButton("Stand");
         doubleButton = new JButton("Double");
-        splitButton = new JButton("Split");
+        resetButton = new JButton("Restart");
 
         buttonPanel.add(hitButton);
         buttonPanel.add(standButton);
         buttonPanel.add(dealButton);
         buttonPanel.add(doubleButton);
-        buttonPanel.add(splitButton);
+
+        JPanel resetPanel = new JPanel();
+        resetPanel.add(resetButton);
+
+
+        frame.add(resetPanel, BorderLayout.EAST);
+
+
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         hitButton.setVisible(false);
         standButton.setVisible(false);
         doubleButton.setVisible(false);
-        splitButton.setVisible(false);
 
         hitButton.addActionListener(new ActionListener() {
             @Override
@@ -145,10 +149,11 @@ public class BlackJack {
             }
         });
 
-        splitButton.addActionListener(new ActionListener() {
+
+        resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playerSplit();
+                reset();
             }
         });
 
@@ -172,7 +177,6 @@ public class BlackJack {
                         hitButton.setVisible(true);
                         standButton.setVisible(true);
                         doubleButton.setVisible(true);
-                        splitButton.setVisible(true);
                         dealButton.setVisible(false);
                         dealInitialCards();
                     }
@@ -209,7 +213,6 @@ public class BlackJack {
 
     public void playerHit(){
         doubleButton.setVisible(false);
-        splitButton.setVisible(false);
         player.addCard(deck);
         playerLabel.setText("Player Total: " + player.getHand().calculateValue());
         Card newcard = player.getHand().getCards().get(player.getHand().getCards().size() - 1);
@@ -225,6 +228,12 @@ public class BlackJack {
         evaluateWinner(false);
     }
 
+    public void reset(){
+        frame.dispose();
+        player.resetChipCount();
+        new BlackJack();
+    }
+
     public void playerDouble(){
         player.addCard(deck);
         playerLabel.setText("Player Total: " + player.getHand().calculateValue());
@@ -234,7 +243,6 @@ public class BlackJack {
         betAmount *= 2;
         chipCountLabel.setText("Chips: " + player.getChipCount());
         doubleButton.setVisible(false);
-        splitButton.setVisible(false);
         DealerFinish();
         evaluateWinner(false);
     }
@@ -243,7 +251,6 @@ public class BlackJack {
         player.betChipAmount(betAmount);
         betAmount *= 2;
         doubleButton.setVisible(false);
-        splitButton.setVisible(false);
     }
 
 
@@ -262,7 +269,6 @@ public class BlackJack {
         hitButton.setVisible(false);
         standButton.setVisible(false);
         doubleButton.setVisible(false);
-        splitButton.setVisible(false);
         int playerVal = player.getHand().calculateValue();
         int dealerVal = dealer.getHand().calculateValue();
 

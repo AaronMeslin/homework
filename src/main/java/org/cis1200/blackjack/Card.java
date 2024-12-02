@@ -43,7 +43,7 @@ public class Card{
     public JLabel toImage(){
         BufferedImage myPicture = null;
         try {
-            myPicture = ImageIO.read(new File("/Users/aaronmeslin/Desktop/hw09_local_temp-3/src/main/java/org/cis1200/blackjack/cardImages/"+this.toString()+".png"));
+            myPicture = ImageIO.read(new File("C:\\Users\\Aaron\\IdeaProjects\\homework\\src\\main\\java\\org\\cis1200\\blackjack\\cardImages\\"+ this.toString()+".png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
