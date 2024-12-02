@@ -1,1 +1,1 @@
-chip count: 1000
+chip count: 750

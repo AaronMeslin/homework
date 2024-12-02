@@ -64,7 +64,7 @@ public class Player {
     }
 
     public void updateChipCount() {
-        File file = new File("C:\\Users\\Aaron\\IdeaProjects\\homework\\src\\main\\java\\org\\cis1200\\blackjack\\save.txt");
+        File file = new File("/Users/aaronmeslin/Desktop/homework/src/main/java/org/cis1200/blackjack/save.txt");
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);

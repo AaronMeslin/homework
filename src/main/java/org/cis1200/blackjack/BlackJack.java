@@ -28,9 +28,12 @@ public class BlackJack {
     private JLabel dealerLabel;
     private JPanel playerPanel;
     private JPanel dealerPanel;
+    private JButton instructionsButton;
+    private JFrame instructionsFrame;
+    private JLabel instructionsLabel;
 
     public BlackJack() {
-        File file = new File("C:\\Users\\Aaron\\IdeaProjects\\homework\\src\\main\\java\\org\\cis1200\\blackjack\\save.txt");
+        File file = new File("/Users/aaronmeslin/Desktop/homework/src/main/java/org/cis1200/blackjack/save.txt");
         try {
             Scanner scanner = new Scanner(file);
             if (scanner.hasNextLine()) {
@@ -54,6 +57,33 @@ public class BlackJack {
     }
 
     private void setupGameBoard() {
+
+        instructionsFrame = new JFrame("Instructions");
+
+        instructionsLabel = new JLabel("<html>Blackjack: <br> <br>" +
+                "A game where the player competes against the dealer to have a hand value closer to 21" +
+                "without exceeding it.<br>  Each card has a point value: numbered cards are " +
+                "worth their face value: <br>  Face cards are worth 10 and aces can count as either 1 or 11.<br> " +
+                " Players are dealt two cards initially and can choose to: <br> \"hit\" (take another card) <br> " +
+                "\"stand\" (keep their current total) <br> \"double\" (take another card but double the bet<br> " +
+                "The player aims to beat the dealer's hand or avoid going \"bust\" (exceeding 21).<br> " +
+                "The deck is a standard 52 card deck with the following unique cards: <br> <br>" +
+
+                "How To Play: <br> <br> "  +
+                "Enter you bet amount with keyboard input. It must be a number<br> " +
+                "The deal button will deal the initial cards once the bet is set <br> " +
+                "The hit button gives you another card<br> " +
+                "The stand button ends your hand and compares it to the dealer<br> " +
+                "The double button gives you one more card and doubles your bet. You cannot get another card after you double<br> " +
+                "</html>"
+        );
+
+        instructionsFrame.setSize(800, 400);
+        instructionsFrame.setLayout(new BorderLayout());
+        JPanel instructionsPanel = new JPanel();
+        instructionsPanel.add(instructionsLabel, GroupLayout.Alignment.CENTER);
+        instructionsFrame.add(instructionsPanel, BorderLayout.CENTER);
+
         frame = new JFrame("Blackjack Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 600);
@@ -108,7 +138,11 @@ public class BlackJack {
         hitButton = new JButton("Hit");
         standButton = new JButton("Stand");
         doubleButton = new JButton("Double");
+
+
         resetButton = new JButton("Restart");
+
+        instructionsButton = new JButton("Instructions");
 
         buttonPanel.add(hitButton);
         buttonPanel.add(standButton);
@@ -117,6 +151,9 @@ public class BlackJack {
 
         JPanel resetPanel = new JPanel();
         resetPanel.add(resetButton);
+        resetPanel.add(instructionsButton);
+
+
 
 
         frame.add(resetPanel, BorderLayout.EAST);
@@ -132,6 +169,13 @@ public class BlackJack {
             @Override
             public void actionPerformed(ActionEvent e) {
                 playerHit();
+            }
+        });
+
+        instructionsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                instructionsFrame.setVisible(true);
             }
         });
 
