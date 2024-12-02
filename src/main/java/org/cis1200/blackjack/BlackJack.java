@@ -356,8 +356,6 @@ public class BlackJack implements  Runnable {
         betPanel.setVisible(true);
     }
 
-    @Override
     public void run() {
-        new BlackJack();
     }
 }
