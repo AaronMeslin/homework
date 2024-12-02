@@ -7,7 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class BlackJack {
     private Deck deck;
     private int betAmount;
@@ -30,7 +32,22 @@ public class BlackJack {
     private JPanel dealerPanel;
 
     public BlackJack() {
-        player = new Player("Player", 1000);
+        File file = new File("C:\\Users\\Aaron\\IdeaProjects\\homework\\src\\main\\java\\org\\cis1200\\blackjack\\save.txt");
+        try {
+            Scanner scanner = new Scanner(file);
+            if (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+
+                if (line.contains("chip count: ")) {
+                    String[] parts = line.split(": ");
+                    player = new Player("Player",  Integer.parseInt(parts[1]));
+                    scanner.close();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         dealer = new Player("Dealer");
         deck = new Deck();
         deck.populateDeck();
@@ -189,7 +206,7 @@ public class BlackJack {
             evaluateWinner(true);
         }
     }
-q\
+
     public void playerHit(){
         doubleButton.setVisible(false);
         splitButton.setVisible(false);
