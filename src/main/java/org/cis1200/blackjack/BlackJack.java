@@ -279,16 +279,23 @@ public class BlackJack {
     }
 
     public void playerDouble(){
-        player.addCard(deck);
-        playerLabel.setText("Player Total: " + player.getHand().calculateValue());
-        Card newcard = player.getHand().getCards().get(player.getHand().getCards().size() - 1);
-        playerPanel.add(newcard.toImage(), BorderLayout.CENTER);
-        player.betChipAmount(betAmount);
-        betAmount *= 2;
-        chipCountLabel.setText("Chips: " + player.getChipCount());
-        doubleButton.setVisible(false);
-        DealerFinish();
-        evaluateWinner(false);
+
+        if(player.getChipCount() >= betAmount){
+            player.addCard(deck);
+            playerLabel.setText("Player Total: " + player.getHand().calculateValue());
+            Card newcard = player.getHand().getCards().get(player.getHand().getCards().size() - 1);
+            playerPanel.add(newcard.toImage(), BorderLayout.CENTER);
+            player.betChipAmount(betAmount);
+            betAmount *= 2;
+            chipCountLabel.setText("Chips: " + player.getChipCount());
+            doubleButton.setVisible(false);
+            DealerFinish();
+            evaluateWinner(false);
+        }
+        else{
+            gameArea.append("Not enough chips to double!\n");
+        }
+
     }
 
     public void playerSplit(){
