@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class BlackJack {
+public class BlackJack implements  Runnable {
     private Deck deck;
     private int betAmount;
     private Player player;
@@ -33,7 +33,7 @@ public class BlackJack {
     private JLabel instructionsLabel;
 
     public BlackJack() {
-        File file = new File("/Users/aaronmeslin/Desktop/homework/src/main/java/org/cis1200/blackjack/save.txt");
+        File file = new File("C:\\Users\\Aaron\\IdeaProjects\\homework1\\src\\main\\java\\org\\cis1200\\blackjack\\save.txt");
         try {
             Scanner scanner = new Scanner(file);
             if (scanner.hasNextLine()) {
@@ -356,9 +356,8 @@ public class BlackJack {
         betPanel.setVisible(true);
     }
 
-
-
-    public static void main(String[] args) {
+    @Override
+    public void run() {
         new BlackJack();
     }
 }
