@@ -34,6 +34,9 @@ public class Deck{
             }
             CurrentDeck.add(new Treasure(suit));
             cardCount++;
+
+            CurrentDeck.add(new Peek(suit));
+            cardCount++;
         }
 
 

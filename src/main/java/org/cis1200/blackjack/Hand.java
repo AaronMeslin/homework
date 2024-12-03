@@ -43,5 +43,8 @@ public class Hand {
 
         return totalValue;
     }
+    public void removeLastCard(){
+        cards.remove(cards.size() - 1);
+    }
 
 }

@@ -31,6 +31,7 @@ public class BlackJack implements  Runnable {
     private JButton instructionsButton;
     private JFrame instructionsFrame;
     private JLabel instructionsLabel;
+    private boolean hasPeek;
 
     public BlackJack() {
         File file = new File("C:\\Users\\Aaron\\IdeaProjects\\homework1\\src\\main\\java\\org\\cis1200\\blackjack\\save.txt");
@@ -48,7 +49,7 @@ public class BlackJack implements  Runnable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
+        hasPeek = false;
         dealer = new Player("Dealer");
         deck = new Deck();
         deck.populateDeck();
@@ -71,6 +72,9 @@ public class BlackJack implements  Runnable {
                 "Treasure Card: If the player wins and has this card they also win a bonus amount of chips<br>" +
                 "The Treasure Card has a value of 10 like the face cards" +
                 "<br> <br>" +
+                "Peek Card: If the player has the peek card they can see the dealers hidden card <br>" +
+                "The Peek card has a value of 0" +
+                "<br><br>" +
 
                 "How To Play: <br> <br> "  +
                 "Enter you bet amount with keyboard input. It must be a number<br> " +
@@ -239,7 +243,15 @@ public class BlackJack implements  Runnable {
         player.addCard(deck);
         player.addCard(deck);
         dealer.addCard(deck);
+        while (dealer.getHand().getCards().get(0) instanceof Peek || dealer.getHand().getCards().get(0) instanceof Treasure){
+            dealer.getHand().removeLastCard();
+            dealer.addCard(deck);
+        }
         dealer.addCard(deck);
+        while (dealer.getHand().getCards().get(1) instanceof Peek || dealer.getHand().getCards().get(1) instanceof Treasure ){
+            dealer.getHand().removeLastCard();
+            dealer.addCard(deck);
+        }
         playerLabel.setText("Player Total: " + player.getHand().calculateValue());
         dealerLabel.setText("Dealer Showing: " + dealer.getHand().getCards().get(0));
 
@@ -249,8 +261,13 @@ public class BlackJack implements  Runnable {
         }
 
         dealerPanel.add((dealer.getHand().getCards().get(0)).toImage(), BorderLayout.CENTER);
-
-
+        for (Card card : player.getHand().getCards()){
+            if (card instanceof Peek && !hasPeek){
+                hasPeek = true;
+                dealerPanel.add((dealer.getHand().getCards().get(1)).toImage(), BorderLayout.CENTER);
+                dealerLabel.setText("Dealer Showing: " + dealer.getHand().calculateValue());
+            }
+        }
         if(player.getHand().calculateValue() == 21){
             gameArea.append("Player wins: " + betAmount*1.5 + " chips!"+"\n");
             player.winChipAmount((int)Math.round(betAmount + betAmount*1.5));
@@ -269,6 +286,11 @@ public class BlackJack implements  Runnable {
         player.addCard(deck);
         playerLabel.setText("Player Total: " + player.getHand().calculateValue());
         Card newcard = player.getHand().getCards().get(player.getHand().getCards().size() - 1);
+        if (newcard instanceof Peek && !hasPeek){
+            dealerPanel.add((dealer.getHand().getCards().get(1)).toImage(), BorderLayout.CENTER);
+            dealerLabel.setText("Dealer Showing: " + dealer.getHand().calculateValue());
+        }
+
         playerPanel.add(newcard.toImage(), BorderLayout.CENTER);
         if(player.getHand().calculateValue() >= 21){
             DealerFinish();
@@ -293,6 +315,13 @@ public class BlackJack implements  Runnable {
             player.addCard(deck);
             playerLabel.setText("Player Total: " + player.getHand().calculateValue());
             Card newcard = player.getHand().getCards().get(player.getHand().getCards().size() - 1);
+            if (newcard instanceof Peek){
+                hasPeek = true;
+            }
+            if(hasPeek) {
+                dealerPanel.add((dealer.getHand().getCards().get(1)).toImage(), BorderLayout.CENTER);
+                dealerLabel.setText("Dealer Showing: " + dealer.getHand().calculateValue());
+            }
             playerPanel.add(newcard.toImage(), BorderLayout.CENTER);
             player.betChipAmount(betAmount);
             betAmount *= 2;
@@ -317,6 +346,10 @@ public class BlackJack implements  Runnable {
     public void DealerFinish(){
         while(dealer.getHand().calculateValue() < 17){
             dealer.addCard(deck);
+            while (dealer.getHand().getCards().get(dealer.getHand().getCards().size()-1) instanceof Peek || dealer.getHand().getCards().get(dealer.getHand().getCards().size()-1) instanceof Treasure ){
+                dealer.getHand().removeLastCard();
+                dealer.addCard(deck);
+            }
         }
         dealerLabel.setText("Dealer Total: " + dealer.getHand().calculateValue());
         dealerPanel.remove(1);
@@ -375,6 +408,7 @@ public class BlackJack implements  Runnable {
         dealButton.setVisible(true);
         betField.setVisible(true);
         betPanel.setVisible(true);
+        hasPeek = false;
     }
 
     public void run() {
