@@ -67,8 +67,9 @@ public class BlackJack implements  Runnable {
                 " Players are dealt two cards initially and can choose to: <br> \"hit\" (take another card) <br> " +
                 "\"stand\" (keep their current total) <br> \"double\" (take another card but double the bet<br> " +
                 "The player aims to beat the dealer's hand or avoid going \"bust\" (exceeding 21).<br> " +
-                "The deck is a standard 52 card deck with the following extra unique cards: <br> " +
-                "Treasure Card: If the player wins and has this card they also win a bonus amount of chips" +
+                "The deck is a standard 52 card deck with the following extra unique cards: <br> <br> " +
+                "Treasure Card: If the player wins and has this card they also win a bonus amount of chips<br>" +
+                "The Treasure Card has a value of 10 like the face cards" +
                 "<br> <br>" +
 
                 "How To Play: <br> <br> "  +
