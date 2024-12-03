@@ -27,14 +27,16 @@ public class Deck{
     }
 
     public void populateDeck() {
-        for(int i =0; i<3; i++){
-           for (String suit : suits){
-               for (String rank : ranks){
-                   CurrentDeck.add(new Card(suit,rank));
-                   cardCount++;
-               }
-           }
+        for (String suit : suits){
+            for (String rank : ranks){
+                CurrentDeck.add(new Card(suit,rank));
+                cardCount++;
+            }
+            CurrentDeck.add(new Treasure(suit));
+            cardCount++;
         }
+
+
 
     }
 

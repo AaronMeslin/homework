@@ -19,7 +19,7 @@ public class Card{
         if(rank.equals("Ace")){
             this.value = 11;
         }
-        else if (rank.equals("Jack") || rank.equals("Queen") || rank.equals("King")){
+        else if (rank.equals("Jack") || rank.equals("Queen") || rank.equals("King") || rank.equals("Treasure")){
             this.value = 10;
         }
         else{

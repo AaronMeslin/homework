@@ -67,7 +67,9 @@ public class BlackJack implements  Runnable {
                 " Players are dealt two cards initially and can choose to: <br> \"hit\" (take another card) <br> " +
                 "\"stand\" (keep their current total) <br> \"double\" (take another card but double the bet<br> " +
                 "The player aims to beat the dealer's hand or avoid going \"bust\" (exceeding 21).<br> " +
-                "The deck is a standard 52 card deck with the following unique cards: <br> <br>" +
+                "The deck is a standard 52 card deck with the following extra unique cards: <br> " +
+                "Treasure Card: If the player wins and has this card they also win a bonus amount of chips" +
+                "<br> <br>" +
 
                 "How To Play: <br> <br> "  +
                 "Enter you bet amount with keyboard input. It must be a number<br> " +
@@ -251,6 +253,12 @@ public class BlackJack implements  Runnable {
         if(player.getHand().calculateValue() == 21){
             gameArea.append("Player wins: " + betAmount*1.5 + " chips!"+"\n");
             player.winChipAmount((int)Math.round(betAmount + betAmount*1.5));
+            for (Card card : player.getHand().getCards()){
+                if (card instanceof Treasure){
+                    player.winChipAmount(((Treasure) card).getTreasureWorth());
+                    gameArea.append("Player had Treasure Card worth: "+ ((Treasure) card).getTreasureWorth() + "\n" + "Player wins: " + ((Treasure) card).getTreasureWorth());
+                }
+            }
             evaluateWinner(true);
         }
     }
@@ -330,6 +338,12 @@ public class BlackJack implements  Runnable {
             else if (dealerVal > 21){
                 gameArea.append("Player wins: " + betAmount + " chips!"+"\n");
                 player.winChipAmount(betAmount*2);
+                for (Card card : player.getHand().getCards()){
+                    if (card instanceof  Treasure){
+                        player.winChipAmount(((Treasure) card).getTreasureWorth());
+                        gameArea.append("Player had Treasure Card worth: "+ ((Treasure) card).getTreasureWorth() + "\n" + "Player wins: " + ((Treasure) card).getTreasureWorth());
+                    }
+                }
             }
             else if(playerVal == dealerVal){
                 gameArea.append("Tie!");
@@ -339,6 +353,12 @@ public class BlackJack implements  Runnable {
                 if (playerVal > dealerVal){
                     gameArea.append("Player won: " + betAmount + " chips!"+"\n");
                     player.winChipAmount(betAmount*2);
+                    for (Card card : player.getHand().getCards()){
+                        if (card instanceof  Treasure){
+                            player.winChipAmount(((Treasure) card).getTreasureWorth());
+                            gameArea.append("Player had Treasure Card worth: "+ ((Treasure) card).getTreasureWorth() + "\n" + "Player wins: " + ((Treasure) card).getTreasureWorth());
+                        }
+                    }
                 }
                 if (playerVal < dealerVal){
                     gameArea.append("Player lost: " + betAmount + " chips!"+"\n");
